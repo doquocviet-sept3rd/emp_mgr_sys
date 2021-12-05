@@ -1,0 +1,305 @@
+JFDML JFormDesigner: "7.0.4.0.360" Java: "11.0.12" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+			"autoSize": false
+		} ) {
+			name: "this"
+			"title": "Job History"
+			"background": new java.awt.Color( 204, 204, 204, 255 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+				"autoSize": false
+			} ) {
+				name: "panel1"
+				"background": &Color0 new java.awt.Color( 214, 217, 223, 255 )
+				"border": new javax.swing.border.TitledBorder( "Job histories information:" )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "panel5"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 30
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tblJobHistories"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( "" )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( "" )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "id" )
+							add( "employee" )
+							add( "job" )
+							add( "department" )
+							add( "start" )
+							add( "end" )
+						}, new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						}, new java.util.Vector {
+							add( false )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						}, new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						"border": new javax.swing.border.EtchedBorder( 1, null, null )
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "tblJobHistoriesMouseClicked", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 30
+					"width": 700
+					"height": 295
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 15
+				"y": 55
+				"width": 745
+				"height": 380
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "panel2"
+				"background": #Color0
+				"border": new javax.swing.border.TitledBorder( "Detail:" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "Id:"
+					"background": new java.awt.Color( 204, 204, 204, 255 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 30
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfId"
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "Employee:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 65
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfEmployee"
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 60
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label10"
+					"text": "Job:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 100
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfJob"
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 95
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label11"
+					"text": "Department:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 135
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfDept"
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 130
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label12"
+					"text": "Start:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 170
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label13"
+					"text": "End:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 205
+				} )
+				add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+					name: "dChooserStart"
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 100
+					"y": 165
+					"width": 220
+					"height": 28
+				} )
+				add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+					name: "dChooserEnd"
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 200
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 775
+				"y": 55
+				"width": 345
+				"height": 380
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txfSearch"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 245
+				"y": 15
+				"width": 415
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnSearch"
+				"text": "Search"
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnSearchMouseClicked", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 28
+				"x": 775
+				"y": 15
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "cboxFilter"
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "no filter"
+					addElement( "no filter" )
+					addElement( "id" )
+					addElement( "employee" )
+					addElement( "job" )
+					addElement( "department" )
+				}
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 665
+				"y": 15
+				"width": 105
+				"height": 28
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnExit"
+				"text": "Exit"
+				"cursor": new java.awt.Cursor( 12 )
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnExitMouseClicked", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 28
+				"x": 1020
+				"y": 15
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 1140, 480 )
+		} )
+	}
+}

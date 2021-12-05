@@ -1,0 +1,454 @@
+JFDML JFormDesigner: "7.0.4.0.360" Java: "11.0.12" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+			"autoSize": false
+		} ) {
+			name: "this"
+			"title": "Dashboard"
+			"background": new java.awt.Color( 204, 204, 204, 255 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+				"autoSize": false
+			} ) {
+				name: "pnlEmployeesInfo"
+				"background": &Color0 new java.awt.Color( 214, 217, 223, 255 )
+				"border": new javax.swing.border.TitledBorder( "Employees information:" )
+				add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+					name: "panel5"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 30
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "tblEmployee"
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "tblEmployeeMouseClicked", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 20
+					"y": 30
+					"width": 700
+					"height": 300
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 15
+				"y": 55
+				"width": 745
+				"height": 380
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "pnlDetail"
+				"background": #Color0
+				"border": new javax.swing.border.TitledBorder( "Detail:" )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"text": "Id:"
+					"background": new java.awt.Color( 204, 204, 204, 255 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 30
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfId"
+					"doubleBuffered": true
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 25
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label2"
+					"text": "Name:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 65
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfName"
+					"doubleBuffered": true
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 60
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label3"
+					"text": "Email:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 100
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfEmail"
+					"doubleBuffered": true
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 95
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label4"
+					"text": "Gender:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 135
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label5"
+					"text": "Salary:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 170
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfSalary"
+					"doubleBuffered": true
+					"editable": false
+					addEvent( new FormEvent( "java.awt.event.FocusListener", "focusLost", "txfSalaryFocusLost", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 165
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label6"
+					"text": "PhNo:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 205
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfPhone"
+					"doubleBuffered": true
+					"editable": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 200
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label7"
+					"text": "Hire date:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 240
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label8"
+					"text": "Birth:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 58
+					"height": 16
+					"x": 25
+					"y": 275
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label9"
+					"text": "Job:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 75
+					"height": 16
+					"x": 25
+					"y": 310
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfJob"
+					"doubleBuffered": true
+					"editable": false
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "txfJobMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 305
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label10"
+					"text": "Department:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 345
+				} )
+				add( new FormComponent( "javax.swing.JTextField" ) {
+					name: "txfDept"
+					"doubleBuffered": true
+					"editable": false
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "txfDeptMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 340
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label11"
+					"text": "Address:"
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 80
+					"height": 16
+					"x": 25
+					"y": 380
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "rdBtnMale"
+					"text": "Male"
+					"enabled": false
+					"selected": true
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "rdBtnMaleMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 100
+					"y": 135
+					"width": 100
+				} )
+				add( new FormComponent( "javax.swing.JRadioButton" ) {
+					name: "rdBtnFemale"
+					"text": "Female"
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "rdBtnFemaleMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 100
+					"height": 18
+					"x": 220
+					"y": 135
+				} )
+				add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+					name: "dChooserHireDate"
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 100
+					"y": 235
+					"width": 220
+					"height": 28
+				} )
+				add( new FormComponent( "com.toedter.calendar.JDateChooser" ) {
+					name: "dChooserBirth"
+					"enabled": false
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 220
+					"height": 28
+					"x": 100
+					"y": 270
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane2"
+					add( new FormComponent( "javax.swing.JTextArea" ) {
+						name: "txfAddress"
+						"editable": false
+						"wrapStyleWord": true
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "txfAddressMouseClicked", true ) )
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 100
+					"y": 375
+					"width": 220
+					"height": 115
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 775
+				"y": 55
+				"width": 345
+				"height": 515
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+				name: "pnlControls"
+				"border": new javax.swing.border.TitledBorder( "Controls:" )
+				"background": new java.awt.Color( 214, 217, 223, 255 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnAdd"
+					"text": "Add"
+					"cursor": &Cursor0 new java.awt.Cursor( 12 )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnAddMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 20
+					"y": 35
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnUpdate"
+					"text": "Update"
+					"cursor": #Cursor0
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnUpdateMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 128
+					"y": 35
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnDelete"
+					"text": "Delete"
+					"cursor": #Cursor0
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnDeleteMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 235
+					"y": 35
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnSave"
+					"text": "Save"
+					"cursor": #Cursor0
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnSaveMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 20
+					"y": 75
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnCancel"
+					"text": "Cancel"
+					"cursor": #Cursor0
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnCancelMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 128
+					"y": 75
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "btnReload"
+					"text": "Reload"
+					"cursor": #Cursor0
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnReloadMouseClicked", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"width": 95
+					"height": 28
+					"x": 235
+					"y": 75
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 410
+				"y": 445
+				"width": 350
+				"height": 125
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "txfSearch"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 245
+				"y": 15
+				"width": 415
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnSearch"
+				"text": "Search"
+				"cursor": #Cursor0
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnSearchMouseClicked", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 28
+				"x": 775
+				"y": 15
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+				"autoSize": false
+			} ) {
+				name: "pnlLogs"
+				"border": new javax.swing.border.TitledBorder( "Logs:" )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "scrollPane3"
+					add( new FormComponent( "javax.swing.JTextArea" ) {
+						name: "txfLogs"
+						"editable": false
+					} )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 15
+					"y": 30
+					"width": 350
+					"height": 80
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 15
+				"y": 445
+				"width": 380
+				"height": 125
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "cboxFilter"
+				"cursor": #Cursor0
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "no filter"
+					addElement( "no filter" )
+					addElement( "id" )
+					addElement( "name" )
+					addElement( "email" )
+					addElement( "address" )
+					addElement( "job" )
+					addElement( "department" )
+				}
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 665
+				"y": 15
+				"width": 105
+				"height": 28
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "btnExit"
+				"text": "Exit"
+				"cursor": #Cursor0
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnExitMouseClicked", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"width": 95
+				"height": 28
+				"x": 1025
+				"y": 15
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "mnBarMain"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnDept"
+					"text": "Department"
+					"cursor": &Cursor1 new java.awt.Cursor( 12 )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "mnDeptMouseClicked", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnJob"
+					"text": "Job"
+					"cursor": #Cursor1
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "mnJobMouseClicked", true ) )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "mnJobHis"
+					"text": "Job History"
+					"cursor": #Cursor1
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "mnJobHisMouseClicked", true ) )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 1140, 645 )
+		} )
+	}
+}

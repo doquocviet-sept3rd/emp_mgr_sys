@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="FacetManager">
+    <facet type="hibernate" name="Hibernate">
+      <configuration>
+        <datasource-map>
+          <unit-entry name="META-INF:hibernate.cfg-mysql.xml" />
+          <unit-entry name="META-INF:hibernate.cfg.xml" value="cfe3bf07-5f6a-4e38-ae4d-a7340e3864ac" />
+        </datasource-map>
+        <naming-strategy-map />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/hibernate.cfg-mysql.xml" />
+        <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/hibernate.cfg.xml" />
+      </configuration>
+    </facet>
+    <facet type="jpa" name="JPA">
+      <configuration>
+        <setting name="validation-enabled" value="true" />
+        <datasource-mapping>
+          <factory-entry name="default" value="accd1971-446e-4efb-ba6f-b911ff8d8433" />
+          <factory-entry name="noname-a.xml@0" value="accd1971-446e-4efb-ba6f-b911ff8d8433" />
+        </datasource-mapping>
+        <naming-strategy-map />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
+      </configuration>
+    </facet>
+  </component>
+</module>
