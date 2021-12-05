@@ -229,13 +229,12 @@ public class JobFrame extends JFrame {
         {
             pnlJobs.setBackground(new Color(214, 217, 223));
             pnlJobs.setBorder(new TitledBorder("Jobs information:"));
-            pnlJobs.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new
-            javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax
-            . swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java
-            . awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
-            . Color .red ) ,pnlJobs. getBorder () ) ); pnlJobs. addPropertyChangeListener( new java. beans .
-            PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .
-            equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            pnlJobs.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border
+            .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax
+            . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,
+            12 ) ,java . awt. Color .red ) ,pnlJobs. getBorder () ) ); pnlJobs. addPropertyChangeListener( new java. beans
+            .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e.
+            getPropertyName () ) )throw new RuntimeException( ) ;} } );
             pnlJobs.setLayout(null);
 
             //======== panel5 ========
@@ -313,6 +312,9 @@ public class JobFrame extends JFrame {
             label1.setBackground(new Color(204, 204, 204));
             pnlDetail.add(label1);
             label1.setBounds(25, 30, 58, 16);
+
+            //---- txfId ----
+            txfId.setEditable(false);
             pnlDetail.add(txfId);
             txfId.setBounds(100, 25, 220, 28);
 
