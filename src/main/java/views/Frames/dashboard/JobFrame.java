@@ -5,6 +5,7 @@ import java.awt.event.*;
 import system.entities.*;
 import system.services.*;
 import system.services.impls.*;
+import system.utils.repositories.RepositoriesService;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -18,8 +19,7 @@ import java.util.List;
  * @author unknown
  */
 public class JobFrame extends JFrame {
-    private final IDepartmentService departmentService = new DepartmentService();
-    private final IJobService jobService = new JobService();
+
     private int isAdd = 0;
 
     public JobFrame() {
@@ -51,7 +51,7 @@ public class JobFrame extends JFrame {
             Object[][] data = new Object[500][header.length];
             List<Job> jobs;
             if (src == null) {
-                jobs = jobService.findAll();
+                jobs = RepositoriesService.getJobService().findAll();
             } else {
                 jobs = src;
             }
@@ -62,7 +62,12 @@ public class JobFrame extends JFrame {
                 data[i][2] = job.getMinSalary();
                 data[i][3] = job.getTitle();
             }
-            tblJobs.setModel(new DefaultTableModel(data, header));
+            tblJobs.setModel(new DefaultTableModel(data, header) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,7 +118,7 @@ public class JobFrame extends JFrame {
     private void btnDeleteMouseClicked(MouseEvent e) {
         if (!txfId.getText().equals("")) {
             if (JOptionPane.showConfirmDialog(this, "Do you want to delete this job?", "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
-                if (departmentService.delete(departmentService.findOne(Long.parseLong(txfId.getText())))) {
+                if (RepositoriesService.getDepartmentService().delete(RepositoriesService.getDepartmentService().findOne(Long.parseLong(txfId.getText())))) {
                     JOptionPane.showMessageDialog(this, "success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                 } else {
@@ -154,14 +159,14 @@ public class JobFrame extends JFrame {
             double minSalary = Double.parseDouble(txfMin.getText());
             String title = txfTitle.getText();
             if (isAdd == 1) {
-                if (jobService.insert(new Job(maxSalary, minSalary, title)) != null) {
+                if (RepositoriesService.getJobService().insert(new Job(maxSalary, minSalary, title)) != null) {
                     JOptionPane.showMessageDialog(this, "Success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                     isAdd = 0;
                 }
             } else {
                 long id = Long.parseLong(txfId.getText());
-                if (jobService.update(new Job(id, maxSalary, minSalary, title))) {
+                if (RepositoriesService.getJobService().update(new Job(id, maxSalary, minSalary, title))) {
                     JOptionPane.showMessageDialog(this, "Success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                     isAdd = 0;
@@ -179,7 +184,7 @@ public class JobFrame extends JFrame {
 
     private void btnSearchMouseClicked(MouseEvent e) {
         String filter = String.valueOf(cboxFilter.getSelectedItem());
-        initData(jobService.findAllByKey(txfSearch.getText(), filter));
+        initData(RepositoriesService.getJobService().findAllByKey(txfSearch.getText(), filter));
         displayButton(true);
         displayInput(false);
         tblJobs.setRowSelectionInterval(0, 0);
@@ -229,12 +234,18 @@ public class JobFrame extends JFrame {
         {
             pnlJobs.setBackground(new Color(214, 217, 223));
             pnlJobs.setBorder(new TitledBorder("Jobs information:"));
-            pnlJobs.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border
-            .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing .border . TitledBorder. CENTER ,javax
-            . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "D\u0069alog", java .awt . Font. BOLD ,
-            12 ) ,java . awt. Color .red ) ,pnlJobs. getBorder () ) ); pnlJobs. addPropertyChangeListener( new java. beans
-            .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e.
-            getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            pnlJobs.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+                    (0, 0, 0, 0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax.swing.border.TitledBorder.CENTER, javax.swing.border
+                    .TitledBorder.BOTTOM, new java.awt.Font("D\u0069alog", java.awt.Font.BOLD, 12), java.awt
+                    .Color.red), pnlJobs.getBorder()));
+            pnlJobs.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                @Override
+                public void
+                propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("\u0062order".equals(e.getPropertyName())) throw new RuntimeException()
+                            ;
+                }
+            });
             pnlJobs.setLayout(null);
 
             //======== panel5 ========
@@ -244,7 +255,7 @@ public class JobFrame extends JFrame {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                    for (int i = 0; i < panel5.getComponentCount(); i++) {
                         Rectangle bounds = panel5.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -264,29 +275,31 @@ public class JobFrame extends JFrame {
 
                 //---- tblJobs ----
                 tblJobs.setModel(new DefaultTableModel(
-                    new Object[][] {
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, null, null},
-                        {null, null, "", null},
-                        {null, null, null, null},
-                    },
-                    new String[] {
-                        "id", "max salary", "min salary", "title"
-                    }
+                        new Object[][]{
+                                {null, null, null, null},
+                                {null, null, null, null},
+                                {null, null, null, null},
+                                {null, null, null, null},
+                                {null, null, null, null},
+                                {null, null, null, null},
+                                {null, null, "", null},
+                                {null, null, null, null},
+                        },
+                        new String[]{
+                                "id", "max salary", "min salary", "title"
+                        }
                 ) {
-                    boolean[] columnEditable = new boolean[] {
-                        false, true, true, true
+                    boolean[] columnEditable = new boolean[]{
+                            false, true, true, true
                     };
+
                     @Override
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
                         return columnEditable[columnIndex];
                     }
                 });
                 tblJobs.setBorder(new EtchedBorder());
+                tblJobs.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 tblJobs.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -347,7 +360,7 @@ public class JobFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlDetail.getComponentCount(); i++) {
+                for (int i = 0; i < pnlDetail.getComponentCount(); i++) {
                     Rectangle bounds = pnlDetail.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -437,7 +450,7 @@ public class JobFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlControls.getComponentCount(); i++) {
+                for (int i = 0; i < pnlControls.getComponentCount(); i++) {
                     Rectangle bounds = pnlControls.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -456,6 +469,7 @@ public class JobFrame extends JFrame {
 
         //---- btnSearch ----
         btnSearch.setText("Search");
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -466,18 +480,20 @@ public class JobFrame extends JFrame {
         btnSearch.setBounds(775, 15, 95, 28);
 
         //---- cboxFilter ----
-        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[] {
-            "no filter",
-            "id",
-            "max salary",
-            "min salary",
-            "title"
+        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[]{
+                "no filter",
+                "id",
+                "max salary",
+                "min salary",
+                "title"
         }));
+        cboxFilter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         contentPane.add(cboxFilter);
         cboxFilter.setBounds(665, 15, 105, 28);
 
         //---- btnExit ----
         btnExit.setText("Exit");
+        btnExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnExit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

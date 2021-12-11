@@ -3,8 +3,7 @@ package views.Frames.dashboard;
 import java.awt.event.*;
 
 import system.entities.*;
-import system.services.*;
-import system.services.impls.*;
+import system.utils.repositories.RepositoriesService;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
@@ -19,13 +18,7 @@ import java.util.Objects;
  * @author vcoder
  */
 public class DepartmentFrame extends JFrame {
-    private final IEmployeeService employeeService = new EmployeeService();
-    private final IDepartmentService departmentService = new DepartmentService();
-    private final IRegionService regionService = new RegionService();
-    private final ICountryService countryService = new CountryService();
-    private final IProvinceService provinceService = new ProvinceService();
-    private final IDistrictService districtService = new DistrictService();
-    private final IWardService wardService = new WardService();
+
     private int isAdd = 0;
 
     public DepartmentFrame() {
@@ -57,7 +50,7 @@ public class DepartmentFrame extends JFrame {
             Object[][] data = new Object[500][header.length];
             List<Department> departments;
             if (src == null) {
-                departments = departmentService.findAll();
+                departments = RepositoriesService.getDepartmentService().findAll();
             } else {
                 departments = src;
             }
@@ -73,7 +66,12 @@ public class DepartmentFrame extends JFrame {
                         "\r\n[" + ward.getDistrict().getProvince().getCountry().getId() + "]" + " Country: " + ward.getDistrict().getProvince().getCountry().getName() +
                         "\r\n[" + ward.getDistrict().getProvince().getCountry().getRegion().getId() + "]" + " Region: " + ward.getDistrict().getProvince().getCountry().getRegion().getName();
             }
-            tblDepts.setModel(new DefaultTableModel(data, header));
+            tblDepts.setModel(new DefaultTableModel(data, header) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +122,7 @@ public class DepartmentFrame extends JFrame {
     private void btnDeleteMouseClicked(MouseEvent e) {
         if (!txfId.getText().equals("")) {
             if (JOptionPane.showConfirmDialog(this, "Do you want to delete this department?", "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
-                if (departmentService.delete(departmentService.findOne(Long.parseLong(txfId.getText())))) {
+                if (RepositoriesService.getDepartmentService().delete(RepositoriesService.getDepartmentService().findOne(Long.parseLong(txfId.getText())))) {
                     JOptionPane.showMessageDialog(this, "success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                 } else {
@@ -161,18 +159,20 @@ public class DepartmentFrame extends JFrame {
 
     private void btnSaveMouseClicked(MouseEvent e) {
         try {
-            String name = txfName.getText();
+            String name = txfName.getText().equals("") ? null : txfName.getText();
             long managerId = getIdFromString(txfManager.getText());
             long wardId = getIdFromString(txfAddress.getText());
             if (isAdd == 1) {
-                if (departmentService.insert(new Department(name, managerId, wardId)) != null) {
+                if (RepositoriesService.getDepartmentService().insert(new Department(name, managerId, wardId)) != null) {
                     JOptionPane.showMessageDialog(this, "Success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                     isAdd = 0;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Fail!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 long id = Long.parseLong(txfId.getText());
-                if (departmentService.update(new Department(id, name, managerId, wardId))) {
+                if (RepositoriesService.getDepartmentService().update(new Department(id, name, managerId, wardId))) {
                     JOptionPane.showMessageDialog(this, "Success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                     isAdd = 0;
@@ -191,7 +191,7 @@ public class DepartmentFrame extends JFrame {
     private void txfManagerMouseClicked(MouseEvent e) {
         if (isAdd != 0) {
             try {
-                List<Employee> employees = employeeService.findAll();
+                List<Employee> employees = RepositoriesService.getEmployeeService().findAll();
                 Object[] possibilities = new Object[employees.size()];
                 int index = 0;
                 long managerIdCurrent = getIdFromString(Objects.equals(txfManager.getText(), "") ? "[-1]" : txfManager.getText());
@@ -223,7 +223,7 @@ public class DepartmentFrame extends JFrame {
     private void txfAddressMouseClicked(MouseEvent e) {
         if (isAdd != 0) {
             try {
-                java.util.List<Region> regions = regionService.findAll();
+                java.util.List<Region> regions = RepositoriesService.getRegionService().findAll();
                 Object[] possibilities = new Object[regions.size()];
                 for (int i = 0; i < regions.size(); i++) {
                     Region region = regions.get(i);
@@ -239,7 +239,7 @@ public class DepartmentFrame extends JFrame {
                         possibilities[0]
                 );
 
-                java.util.List<Country> countries = countryService.findAllByRegion(getIdFromString(region));
+                java.util.List<Country> countries = RepositoriesService.getCountryService().findAllByRegion(getIdFromString(region));
                 possibilities = new Object[countries.size()];
                 for (int i = 0; i < countries.size(); i++) {
                     Country country = countries.get(i);
@@ -255,7 +255,7 @@ public class DepartmentFrame extends JFrame {
                         possibilities[0]
                 );
 
-                java.util.List<Province> provinces = provinceService.findAllByCountry(getIdFromString(country));
+                java.util.List<Province> provinces = RepositoriesService.getProvinceService().findAllByCountry(getIdFromString(country));
                 possibilities = new Object[provinces.size()];
                 for (int i = 0; i < provinces.size(); i++) {
                     Province province = provinces.get(i);
@@ -271,7 +271,7 @@ public class DepartmentFrame extends JFrame {
                         possibilities[0]
                 );
 
-                java.util.List<District> districts = districtService.findAllByProvince(getIdFromString(province));
+                java.util.List<District> districts = RepositoriesService.getDistrictService().findAllByProvince(getIdFromString(province));
                 possibilities = new Object[districts.size()];
                 for (int i = 0; i < districts.size(); i++) {
                     District district = districts.get(i);
@@ -287,7 +287,7 @@ public class DepartmentFrame extends JFrame {
                         possibilities[0]
                 );
 
-                List<Ward> wards = wardService.findAllByDistrict(getIdFromString(district));
+                List<Ward> wards = RepositoriesService.getWardService().findAllByDistrict(getIdFromString(district));
                 possibilities = new Object[wards.size()];
                 for (int i = 0; i < wards.size(); i++) {
                     Ward ward = wards.get(i);
@@ -320,7 +320,7 @@ public class DepartmentFrame extends JFrame {
 
     private void btnSearchMouseClicked(MouseEvent e) {
         String filter = String.valueOf(cboxFilter.getSelectedItem());
-        initData(departmentService.findAllByKey(txfSearch.getText(), filter));
+        initData(RepositoriesService.getDepartmentService().findAllByKey(txfSearch.getText(), filter));
         displayButton(true);
         displayInput(false);
         tblDepts.setRowSelectionInterval(0, 0);
@@ -370,13 +370,18 @@ public class DepartmentFrame extends JFrame {
         {
             pnlDepts.setBackground(new Color(214, 217, 223));
             pnlDepts.setBorder(new TitledBorder("Departments information:"));
-            pnlDepts.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax
-            . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing
-            .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .
-            Font ( "D\u0069alog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red
-            ) ,pnlDepts. getBorder () ) ); pnlDepts. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override
-            public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e. getPropertyName (
-            ) ) )throw new RuntimeException( ) ;} } );
+            pnlDepts.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border
+                    .EmptyBorder(0, 0, 0, 0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax.swing.border.TitledBorder.CENTER, javax
+                    .swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dia\u006cog", java.awt.Font.BOLD,
+                    12), java.awt.Color.red), pnlDepts.getBorder()));
+            pnlDepts.addPropertyChangeListener(new java.beans
+                    .PropertyChangeListener() {
+                @Override
+                public void propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("\u0062ord\u0065r".equals(e.
+                            getPropertyName())) throw new RuntimeException();
+                }
+            });
             pnlDepts.setLayout(null);
 
             //======== panel5 ========
@@ -386,7 +391,7 @@ public class DepartmentFrame extends JFrame {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                    for (int i = 0; i < panel5.getComponentCount(); i++) {
                         Rectangle bounds = panel5.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -406,15 +411,16 @@ public class DepartmentFrame extends JFrame {
 
                 //---- tblDepts ----
                 tblDepts.setModel(new DefaultTableModel(
-                    new Object[][] {
-                    },
-                    new String[] {
-                        null, "name"
-                    }
+                        new Object[][]{
+                        },
+                        new String[]{
+                                null, "name"
+                        }
                 ) {
-                    boolean[] columnEditable = new boolean[] {
-                        false, true
+                    boolean[] columnEditable = new boolean[]{
+                            false, true
                     };
+
                     @Override
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
                         return columnEditable[columnIndex];
@@ -503,7 +509,7 @@ public class DepartmentFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlDetail.getComponentCount(); i++) {
+                for (int i = 0; i < pnlDetail.getComponentCount(); i++) {
                     Rectangle bounds = pnlDetail.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -599,7 +605,7 @@ public class DepartmentFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlControls.getComponentCount(); i++) {
+                for (int i = 0; i < pnlControls.getComponentCount(); i++) {
                     Rectangle bounds = pnlControls.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -630,12 +636,12 @@ public class DepartmentFrame extends JFrame {
 
         //---- cboxFilter ----
         cboxFilter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[] {
-            "no filter",
-            "id",
-            "name",
-            "manager",
-            "address"
+        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[]{
+                "no filter",
+                "id",
+                "name",
+                "manager",
+                "address"
         }));
         contentPane.add(cboxFilter);
         cboxFilter.setBounds(665, 15, 105, 28);

@@ -25,6 +25,7 @@ new FormModel {
 					name: "scrollPane1"
 					add( new FormComponent( "javax.swing.JTable" ) {
 						name: "tblEmployee"
+						"cursor": new java.awt.Cursor( 12 )
 						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "tblEmployeeMouseClicked", true ) )
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {

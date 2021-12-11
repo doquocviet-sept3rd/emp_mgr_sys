@@ -18,14 +18,12 @@ import java.util.Objects;
 
 import com.toedter.calendar.*;
 import system.entities.*;
-import system.services.*;
-import system.services.impls.*;
+import system.utils.repositories.RepositoriesService;
 
 /**
  * @author unknown
  */
 public class JobHistoryFrame extends JFrame {
-    private final IJobHistoryService jobHistoryService = new JobHistoryService();
 
     public JobHistoryFrame() {
         initComponents();
@@ -56,7 +54,7 @@ public class JobHistoryFrame extends JFrame {
             Object[][] data = new Object[500][header.length];
             List<JobHistory> jobHistories;
             if (src == null) {
-                jobHistories = jobHistoryService.findAll();
+                jobHistories = RepositoriesService.getJobHistoryService().findAll();
             } else {
                 jobHistories = src;
             }
@@ -69,7 +67,12 @@ public class JobHistoryFrame extends JFrame {
                 data[i][4] = jobHistory.getStartDate();
                 data[i][5] = jobHistory.getEndDate();
             }
-            tblJobHistories.setModel(new DefaultTableModel(data, header));
+            tblJobHistories.setModel(new DefaultTableModel(data, header) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,7 +123,7 @@ public class JobHistoryFrame extends JFrame {
 
     private void btnSearchMouseClicked(MouseEvent e) {
         String filter = String.valueOf(cboxFilter.getSelectedItem());
-        initData(jobHistoryService.findAllByKey(txfSearch.getText(), filter));
+        initData(RepositoriesService.getJobHistoryService().findAllByKey(txfSearch.getText(), filter));
         tblJobHistories.setRowSelectionInterval(0, 0);
         bindingFromTableToDetail(0);
     }
@@ -160,13 +163,18 @@ public class JobHistoryFrame extends JFrame {
         {
             panel1.setBackground(new Color(214, 217, 223));
             panel1.setBorder(new TitledBorder("Job histories information:"));
-            panel1.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new
-            javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDesi\u0067ner Ev\u0061luatio\u006e" , javax
-            . swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java
-            . awt .Font ( "Dialo\u0067", java .awt . Font. BOLD ,12 ) ,java . awt
-            . Color .red ) ,panel1. getBorder () ) ); panel1. addPropertyChangeListener( new java. beans .
-            PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "borde\u0072" .
-            equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
+            panel1.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder
+                    (0, 0, 0, 0), "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax.swing.border.TitledBorder.CENTER, javax.swing.border
+                    .TitledBorder.BOTTOM, new java.awt.Font("D\u0069alog", java.awt.Font.BOLD, 12), java.awt
+                    .Color.red), panel1.getBorder()));
+            panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                @Override
+                public void
+                propertyChange(java.beans.PropertyChangeEvent e) {
+                    if ("\u0062order".equals(e.getPropertyName())) throw new RuntimeException()
+                            ;
+                }
+            });
             panel1.setLayout(null);
 
             //======== panel5 ========
@@ -176,7 +184,7 @@ public class JobHistoryFrame extends JFrame {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                    for (int i = 0; i < panel5.getComponentCount(); i++) {
                         Rectangle bounds = panel5.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -196,29 +204,31 @@ public class JobHistoryFrame extends JFrame {
 
                 //---- tblJobHistories ----
                 tblJobHistories.setModel(new DefaultTableModel(
-                    new Object[][] {
-                        {null, null, null, null, null, ""},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, null, null, null, null},
-                        {null, null, "", null, null, null},
-                        {null, null, null, null, null, null},
-                    },
-                    new String[] {
-                        "id", "employee", "job", "department", "start", "end"
-                    }
+                        new Object[][]{
+                                {null, null, null, null, null, ""},
+                                {null, null, null, null, null, null},
+                                {null, null, null, null, null, null},
+                                {null, null, null, null, null, null},
+                                {null, null, null, null, null, null},
+                                {null, null, null, null, null, null},
+                                {null, null, "", null, null, null},
+                                {null, null, null, null, null, null},
+                        },
+                        new String[]{
+                                "id", "employee", "job", "department", "start", "end"
+                        }
                 ) {
-                    boolean[] columnEditable = new boolean[] {
-                        false, true, true, true, true, true
+                    boolean[] columnEditable = new boolean[]{
+                            false, true, true, true, true, true
                     };
+
                     @Override
                     public boolean isCellEditable(int rowIndex, int columnIndex) {
                         return columnEditable[columnIndex];
                     }
                 });
                 tblJobHistories.setBorder(new EtchedBorder());
+                tblJobHistories.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 tblJobHistories.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -303,7 +313,7 @@ public class JobHistoryFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < panel2.getComponentCount(); i++) {
+                for (int i = 0; i < panel2.getComponentCount(); i++) {
                     Rectangle bounds = panel2.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -322,6 +332,7 @@ public class JobHistoryFrame extends JFrame {
 
         //---- btnSearch ----
         btnSearch.setText("Search");
+        btnSearch.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnSearch.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -332,13 +343,14 @@ public class JobHistoryFrame extends JFrame {
         btnSearch.setBounds(775, 15, 95, 28);
 
         //---- cboxFilter ----
-        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[] {
-            "no filter",
-            "id",
-            "employee",
-            "job",
-            "department"
+        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[]{
+                "no filter",
+                "id",
+                "employee",
+                "job",
+                "department"
         }));
+        cboxFilter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         contentPane.add(cboxFilter);
         cboxFilter.setBounds(665, 15, 105, 28);
 

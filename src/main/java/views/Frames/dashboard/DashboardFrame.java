@@ -14,23 +14,13 @@ import javax.swing.table.*;
 import com.toedter.calendar.*;
 
 import system.entities.*;
-import system.services.*;
-import system.services.impls.*;
+import system.utils.repositories.RepositoriesService;
 
 /**
  * @author vcoder
  */
 public class DashboardFrame extends JFrame {
 
-    private final IEmployeeService employeeService = new EmployeeService();
-    private final IJobService jobService = new JobService();
-    private final IDepartmentService departmentService = new DepartmentService();
-    private final IRegionService regionService = new RegionService();
-    private final ICountryService countryService = new CountryService();
-    private final IProvinceService provinceService = new ProvinceService();
-    private final IDistrictService districtService = new DistrictService();
-    private final IWardService wardService = new WardService();
-    private final IJobHistoryService jobHistoryService = new JobHistoryService();
     private int isAdd = 0;
 
     public DashboardFrame() {
@@ -70,7 +60,7 @@ public class DashboardFrame extends JFrame {
             Object[][] data = new Object[500][header.length];
             List<Employee> employees;
             if (src == null) {
-                employees = employeeService.findAll();
+                employees = RepositoriesService.getEmployeeService().findAll();
             } else {
                 employees = src;
             }
@@ -93,7 +83,12 @@ public class DashboardFrame extends JFrame {
                 data[i][9] = "[" + employee.getJob().getId() + "] " + employee.getJob().getTitle();
                 data[i][10] = "[" + employee.getDepartment().getId() + "] " + employee.getDepartment().getName();
             }
-            tblEmployee.setModel(new DefaultTableModel(data, header));
+            tblEmployee.setModel(new DefaultTableModel(data, header) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
         } catch (Exception e) {
             txfLogs.setText(e + "\r\n" + txfLogs.getText());
         }
@@ -188,7 +183,7 @@ public class DashboardFrame extends JFrame {
     private void btnDeleteMouseClicked(MouseEvent e) {
         if (!txfId.getText().equals("")) {
             if (JOptionPane.showConfirmDialog(this, "Do you want to delete this employee?", "Warning!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE) == 0) {
-                if (employeeService.delete(employeeService.findOne(Long.parseLong(txfId.getText())))) {
+                if (RepositoriesService.getEmployeeService().delete(RepositoriesService.getEmployeeService().findOne(Long.parseLong(txfId.getText())))) {
                     JOptionPane.showMessageDialog(this, "success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                     load();
                 } else {
@@ -240,11 +235,11 @@ public class DashboardFrame extends JFrame {
     private void btnSaveMouseClicked(MouseEvent e) {
         try {
 
-            String name = txfName.getText();
-            String email = txfEmail.getText();
+            String name = txfName.getText().equals("") ? null : txfName.getText();
+            String email = txfEmail.getText().equals("") ? null : txfEmail.getText();
             boolean isMale = rdBtnMale.isSelected();
             double salary = Double.parseDouble(txfSalary.getText());
-            String phone = txfPhone.getText();
+            String phone = txfPhone.getText().equals("") ? null : txfPhone.getText();
             Timestamp hireDate = new Timestamp(dChooserHireDate.getDate().getTime());
             Timestamp birthDate = new Timestamp(dChooserBirth.getDate().getTime());
             long jobId = getIdFromString(txfJob.getText());
@@ -252,10 +247,10 @@ public class DashboardFrame extends JFrame {
             long wardId = getIdFromString(txfAddress.getText());
 
             if (isAdd == 1) {
-                Long employeeId = employeeService.insert(new Employee(name, email, isMale, birthDate, hireDate, phone, salary, jobId, departmentId, wardId));
+                Long employeeId = RepositoriesService.getEmployeeService().insert(new Employee(name, email, isMale, birthDate, hireDate, phone, salary, jobId, departmentId, wardId));
                 if (employeeId != null) {
                     // add job history
-                    if (jobHistoryService.insert(new JobHistory(
+                    if (RepositoriesService.getJobHistoryService().insert(new JobHistory(
                             employeeId,
                             jobId,
                             departmentId,
@@ -266,18 +261,20 @@ public class DashboardFrame extends JFrame {
                         load();
                         isAdd = 0;
                     }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Fail!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             } else {
                 long employeeId = Long.parseLong(txfId.getText());
-                Employee employeePrevious = employeeService.findOne(employeeId);
+                Employee employeePrevious = RepositoriesService.getEmployeeService().findOne(employeeId);
                 long jobIdPrevious = employeePrevious.getJobId();
                 long departmentIdPrevious = employeePrevious.getDepartmentId();
-                if (employeeService.update(new Employee(employeeId, name, email, isMale, birthDate, hireDate, phone, salary, jobId, departmentId, wardId))) {
+                if (RepositoriesService.getEmployeeService().update(new Employee(employeeId, name, email, isMale, birthDate, hireDate, phone, salary, jobId, departmentId, wardId))) {
                     if (jobIdPrevious != jobId || departmentIdPrevious != departmentId) {
-                        JobHistory jobHistoryPrevious = jobHistoryService.findOnePrevious(employeeId);
+                        JobHistory jobHistoryPrevious = RepositoriesService.getJobHistoryService().findOnePrevious(employeeId);
                         jobHistoryPrevious.setEndDate(Timestamp.from(Instant.now()));
-                        if (jobHistoryService.update(jobHistoryPrevious)) {
-                            if (jobHistoryService.insert(new JobHistory(employeeId, jobId, departmentId, Timestamp.from(Instant.now()), null)) != null) {
+                        if (RepositoriesService.getJobHistoryService().update(jobHistoryPrevious)) {
+                            if (RepositoriesService.getJobHistoryService().insert(new JobHistory(employeeId, jobId, departmentId, Timestamp.from(Instant.now()), null)) != null) {
                                 JOptionPane.showMessageDialog(this, "Success!", "Information", JOptionPane.INFORMATION_MESSAGE);
                                 load();
                                 isAdd = 0;
@@ -303,7 +300,7 @@ public class DashboardFrame extends JFrame {
     private void txfJobMouseClicked(MouseEvent e) {
         if (isAdd != 0) {
             try {
-                List<Job> jobs = jobService.findAll();
+                List<Job> jobs = RepositoriesService.getJobService().findAll();
                 Object[] possibilities = new Object[jobs.size()];
                 int index = 0;
                 long jobIdCurrent = getIdFromString(Objects.equals(txfJob.getText(), "") ? "[-1]" : txfJob.getText());
@@ -323,7 +320,7 @@ public class DashboardFrame extends JFrame {
                         possibilities,
                         possibilities[index]
                 );
-                Job job = jobService.findOne(getIdFromString(result));
+                Job job = RepositoriesService.getJobService().findOne(getIdFromString(result));
                 double salary = Double.parseDouble(Objects.equals(txfSalary.getText(), "") ? "-1" : txfSalary.getText());
                 if (job.getMinSalary() > salary || job.getMaxSalary() < salary) {
                     JOptionPane.showMessageDialog(this, "For this job, the salary must be greater than " + job.getMinSalary() + "$ and less than " + job.getMaxSalary() + "$",
@@ -339,7 +336,7 @@ public class DashboardFrame extends JFrame {
     private void txfDeptMouseClicked(MouseEvent e) {
         if (isAdd != 0) {
             try {
-                List<Department> departments = departmentService.findAll();
+                List<Department> departments = RepositoriesService.getDepartmentService().findAll();
                 Object[] possibilities = new Object[departments.size()];
                 int index = 0;
                 long deptIdCurrent = getIdFromString(Objects.equals(txfDept.getText(), "") ? "[-1]" : txfDept.getText());
@@ -371,7 +368,7 @@ public class DashboardFrame extends JFrame {
     private void txfAddressMouseClicked(MouseEvent e) {
         if (isAdd != 0) {
             try {
-                List<Region> regions = regionService.findAll();
+                List<Region> regions = RepositoriesService.getRegionService().findAll();
                 Object[] possibilities = new Object[regions.size()];
                 for (int i = 0; i < regions.size(); i++) {
                     Region region = regions.get(i);
@@ -387,7 +384,7 @@ public class DashboardFrame extends JFrame {
                         possibilities[0]
                 );
 
-                List<Country> countries = countryService.findAllByRegion(getIdFromString(region));
+                List<Country> countries = RepositoriesService.getCountryService().findAllByRegion(getIdFromString(region));
                 possibilities = new Object[countries.size()];
                 for (int i = 0; i < countries.size(); i++) {
                     Country country = countries.get(i);
@@ -403,7 +400,7 @@ public class DashboardFrame extends JFrame {
                         possibilities[0]
                 );
 
-                List<Province> provinces = provinceService.findAllByCountry(getIdFromString(country));
+                List<Province> provinces = RepositoriesService.getProvinceService().findAllByCountry(getIdFromString(country));
                 possibilities = new Object[provinces.size()];
                 for (int i = 0; i < provinces.size(); i++) {
                     Province province = provinces.get(i);
@@ -419,7 +416,7 @@ public class DashboardFrame extends JFrame {
                         possibilities[0]
                 );
 
-                List<District> districts = districtService.findAllByProvince(getIdFromString(province));
+                List<District> districts = RepositoriesService.getDistrictService().findAllByProvince(getIdFromString(province));
                 possibilities = new Object[districts.size()];
                 for (int i = 0; i < districts.size(); i++) {
                     District district = districts.get(i);
@@ -435,7 +432,7 @@ public class DashboardFrame extends JFrame {
                         possibilities[0]
                 );
 
-                List<Ward> wards = wardService.findAllByDistrict(getIdFromString(district));
+                List<Ward> wards = RepositoriesService.getWardService().findAllByDistrict(getIdFromString(district));
                 possibilities = new Object[wards.size()];
                 for (int i = 0; i < wards.size(); i++) {
                     Ward ward = wards.get(i);
@@ -468,7 +465,7 @@ public class DashboardFrame extends JFrame {
 
     private void btnSearchMouseClicked(MouseEvent e) {
         String filter = String.valueOf(cboxFilter.getSelectedItem());
-        initData(employeeService.findAllByKey(txfSearch.getText(), filter));
+        initData(RepositoriesService.getEmployeeService().findAllByKey(txfSearch.getText(), filter));
         displayButton(true);
         displayInput(false);
         tblEmployee.setRowSelectionInterval(0, 0);
@@ -495,7 +492,7 @@ public class DashboardFrame extends JFrame {
         if (isAdd == -1) {
             // update
             double salary = Double.parseDouble(txfSalary.getText());
-            Employee employee = employeeService.findOne(Long.parseLong(txfId.getText()));
+            Employee employee = RepositoriesService.getEmployeeService().findOne(Long.parseLong(txfId.getText()));
             if (salary < employee.getJob().getMinSalary() || employee.getJob().getMaxSalary() < salary) {
                 JOptionPane.showMessageDialog(this, "For this job, the salary must be greater than " + employee.getJob().getMinSalary() + "$ and less than " + employee.getJob().getMaxSalary() + "$",
                         "Warning", JOptionPane.WARNING_MESSAGE);
@@ -609,13 +606,18 @@ public class DashboardFrame extends JFrame {
         {
             pnlEmployeesInfo.setBackground(new Color(214, 217, 223));
             pnlEmployeesInfo.setBorder(new TitledBorder("Employees information:"));
-            pnlEmployeesInfo.setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax
-            . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmDes\u0069gner \u0045valua\u0074ion" , javax. swing
-            .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .
-            Font ( "D\u0069alog", java .awt . Font. BOLD ,12 ) ,java . awt. Color .red
-            ) ,pnlEmployeesInfo. getBorder () ) ); pnlEmployeesInfo. addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override
-            public void propertyChange (java . beans. PropertyChangeEvent e) { if( "\u0062order" .equals ( e. getPropertyName (
-            ) ) )throw new RuntimeException( ) ;} } );
+            pnlEmployeesInfo.setBorder(new javax.swing.border.CompoundBorder(new javax.swing.border.TitledBorder(new javax.swing.
+                    border.EmptyBorder(0, 0, 0, 0), "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax.swing.border.TitledBorder.CENTER
+                    , javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dia\u006cog", java.awt.Font
+                    .BOLD, 12), java.awt.Color.red), pnlEmployeesInfo.getBorder()));
+            pnlEmployeesInfo.addPropertyChangeListener(
+                    new java.beans.PropertyChangeListener() {
+                        @Override
+                        public void propertyChange(java.beans.PropertyChangeEvent e) {
+                            if ("\u0062ord\u0065r"
+                                    .equals(e.getPropertyName())) throw new RuntimeException();
+                        }
+                    });
             pnlEmployeesInfo.setLayout(null);
 
             //======== panel5 ========
@@ -625,7 +627,7 @@ public class DashboardFrame extends JFrame {
                 {
                     // compute preferred size
                     Dimension preferredSize = new Dimension();
-                    for(int i = 0; i < panel5.getComponentCount(); i++) {
+                    for (int i = 0; i < panel5.getComponentCount(); i++) {
                         Rectangle bounds = panel5.getComponent(i).getBounds();
                         preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                         preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -644,6 +646,7 @@ public class DashboardFrame extends JFrame {
             {
 
                 //---- tblEmployee ----
+                tblEmployee.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 tblEmployee.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -835,7 +838,7 @@ public class DashboardFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlDetail.getComponentCount(); i++) {
+                for (int i = 0; i < pnlDetail.getComponentCount(); i++) {
                     Rectangle bounds = pnlDetail.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -933,7 +936,7 @@ public class DashboardFrame extends JFrame {
             {
                 // compute preferred size
                 Dimension preferredSize = new Dimension();
-                for(int i = 0; i < pnlControls.getComponentCount(); i++) {
+                for (int i = 0; i < pnlControls.getComponentCount(); i++) {
                     Rectangle bounds = pnlControls.getComponent(i).getBounds();
                     preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                     preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
@@ -982,14 +985,14 @@ public class DashboardFrame extends JFrame {
 
         //---- cboxFilter ----
         cboxFilter.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[] {
-            "no filter",
-            "id",
-            "name",
-            "email",
-            "address",
-            "job",
-            "department"
+        cboxFilter.setModel(new DefaultComboBoxModel<>(new String[]{
+                "no filter",
+                "id",
+                "name",
+                "email",
+                "address",
+                "job",
+                "department"
         }));
         contentPane.add(cboxFilter);
         cboxFilter.setBounds(665, 15, 105, 28);

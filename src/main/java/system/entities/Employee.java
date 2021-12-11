@@ -83,7 +83,7 @@ public class Employee {
     }
 
     @Basic
-    @Column(name = "department_id", nullable = true)
+    @Column(name = "department_id", nullable = false)
     public long getDepartmentId() {
         return departmentId;
     }

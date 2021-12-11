@@ -12,6 +12,7 @@
         <junit.version>4.13.2</junit.version>
         <hibernate.core.version>5.6.1.Final</hibernate.core.version>
         <mysql.connector.version>8.0.25</mysql.connector.version>
+        <jcalendar.version>1.4</jcalendar.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
@@ -46,9 +47,8 @@
         <dependency>
             <groupId>com.toedter</groupId>
             <artifactId>jcalendar</artifactId>
-            <version>1.4</version>
+            <version>${jcalendar.version}</version>
         </dependency>
-
 
     </dependencies>
 

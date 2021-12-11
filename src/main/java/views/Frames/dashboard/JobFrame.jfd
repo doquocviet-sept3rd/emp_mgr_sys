@@ -96,6 +96,7 @@ new FormModel {
 							add( null )
 						} )
 						"border": new javax.swing.border.EtchedBorder( 1, null, null )
+						"cursor": new java.awt.Cursor( 12 )
 						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "tblJobsMouseClicked", true ) )
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
@@ -272,6 +273,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "btnSearch"
 				"text": "Search"
+				"cursor": &Cursor0 new java.awt.Cursor( 12 )
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnSearchMouseClicked", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 95
@@ -289,6 +291,7 @@ new FormModel {
 					addElement( "min salary" )
 					addElement( "title" )
 				}
+				"cursor": #Cursor0
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 665
 				"y": 15
@@ -298,6 +301,7 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "btnExit"
 				"text": "Exit"
+				"cursor": #Cursor0
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "btnExitMouseClicked", true ) )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"width": 95

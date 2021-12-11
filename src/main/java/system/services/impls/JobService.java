@@ -1,43 +1,40 @@
 package system.services.impls;
 
-import system.daos.IJobDAO;
-import system.daos.impls.JobDAO;
 import system.entities.Job;
 import system.services.IJobService;
+import system.utils.repositories.RepositoriesDAO;
 
 import java.util.List;
 
 public class JobService implements IJobService {
 
-    private final IJobDAO jobDAO = new JobDAO();
-
     @Override
     public List<Job> findAll() {
-        return jobDAO.findAll();
+        return RepositoriesDAO.getJobDAO().findAll();
     }
 
     @Override
     public Job findOne(long id) {
-        return jobDAO.findOne(id);
+        return RepositoriesDAO.getJobDAO().findOne(id);
     }
 
     @Override
     public Long insert(Job job) {
-        return jobDAO.insert(job);
+        return RepositoriesDAO.getJobDAO().insert(job);
     }
 
     @Override
     public boolean update(Job job) {
-        return jobDAO.update(job);
+        return RepositoriesDAO.getJobDAO().update(job);
     }
 
     @Override
     public boolean delete(Job job) {
-        return jobDAO.delete(job);
+        return RepositoriesDAO.getJobDAO().delete(job);
     }
 
     @Override
     public List<Job> findAllByKey(String key, String filter) {
-        return jobDAO.findAllByKey(key, filter);
+        return RepositoriesDAO.getJobDAO().findAllByKey(key, filter);
     }
 }
