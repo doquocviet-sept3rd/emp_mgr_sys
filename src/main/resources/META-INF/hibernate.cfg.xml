@@ -8,7 +8,7 @@
     <session-factory>
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/emp_mgr_sys</property>
+        <property name="connection.url">jdbc:mysql://localhost:33061/emp_mgr_sys</property>
         <property name="connection.username">root</property>
         <property name="connection.password">123456</property>
 
@@ -18,7 +18,7 @@
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQL57Dialect</property>
 
-        <!-- Enable Hibernate's automatic session context management -->
+        <!-- Enable Hibernates automatic session context management -->
         <property name="current_session_context_class">thread</property>
 
         <!-- Disable the second-level cache -->

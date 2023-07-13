@@ -1,0 +1,8 @@
+services:
+  emp_mgr_sys:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=emp_mgr_sys
+    ports:
+      - 33061:3306
